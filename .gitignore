@@ -5,3 +5,8 @@
 **/.idea/**
 *.tar.gz
 **/log.txt
+
+# python
+.venv/
+__pycache__/
+code2vec.egg-info/
