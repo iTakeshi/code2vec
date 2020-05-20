@@ -185,7 +185,7 @@ class Code2VecModel(Code2VecModelBase):
             log_output_file.write(str(topk_accuracy_evaluation_metric.topk_correct_predictions) + '\n')
         if self.config.EXPORT_CODE_VECTORS:
             code_vectors_file.close()
-        
+
         elapsed = int(time.time() - eval_start_time)
         self.log("Evaluation time: %sH:%sM:%sS" % ((elapsed // 60 // 60), (elapsed // 60) % 60, elapsed % 60))
         return ModelEvaluationResults(
@@ -379,7 +379,7 @@ class Code2VecModel(Code2VecModelBase):
     def _get_vocab_embedding_as_np_array(self, vocab_type: VocabType) -> np.ndarray:
         assert vocab_type in VocabType
         vocab_tf_variable_name = self.vocab_type_to_tf_variable_name_mapping[vocab_type]
-        
+
         if self.eval_reader is None:
             self.eval_reader = PathContextReader(vocabs=self.vocabs,
                                                  model_input_tensors_former=_TFEvaluateModelInputTensorsFormer(),
@@ -397,8 +397,8 @@ class Code2VecModel(Code2VecModelBase):
         with tf.compat.v1.variable_scope('model', reuse=True):
             embeddings = tf.compat.v1.get_variable(vocab_tf_variable_name, shape=shape)
         self.saver = tf.compat.v1.train.Saver()
-        self._initialize_session_variables() 
-        self._load_inner_model(self.sess) 
+        self._initialize_session_variables()
+        self._load_inner_model(self.sess)
         vocab_embedding_matrix = self.sess.run(embeddings)
         return vocab_embedding_matrix
 
