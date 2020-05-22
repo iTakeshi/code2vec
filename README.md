@@ -9,8 +9,6 @@ _**October 2018** - The paper was accepted to [POPL'2019](https://popl19.sigplan
 
 _**April 2019** - The talk video is available [here](https://www.youtube.com/watch?v=EJ8okcxL2Iw)_.
 
-_**July 2019** - Add `tf.keras` model implementation (see [here](#choosing-implementation-to-use))._
-
 An **online demo** is available at [https://code2vec.org/](https://code2vec.org/).
 
 ## See also:
@@ -24,7 +22,6 @@ and for experimenting with new ideas in machine learning for code tasks.
 By default, it learns Java source code and predicts Java method names, but it can be easily extended to other languages, 
 since the TensorFlow network is agnostic to the input programming language (see [Extending to other languages](#extending-to-other-languages).
 Contributions are welcome.
-This repo actually contains two model implementations. The 1st uses pure TensorFlow and the 2nd uses TensorFlow's Keras ([more details](#choosing-implementation-to-use)). 
 
 <center style="padding: 40px"><img width="70%" src="https://github.com/tech-srl/code2vec/raw/master/images/network.png" /></center>
 
@@ -198,16 +195,6 @@ Whether to treat `<OOV>` and `<PAD>` as two different special tokens whenever po
 
 ## Features
 Code2vec supports the following features: 
-
-### Choosing implementation to use
-This repo comes with two model implementations:
-(i) uses pure TensorFlow (written in [tensorflow_model.py](tensorflow_model.py));
-(ii) uses TensorFlow's Keras (written in [keras_model.py](keras_model.py)).
-The default implementation used by `code2vec.py` is the pure TensorFlow.
-To explicitly choose the desired implementation to use, specify `--framework tensorflow` or `--framework keras`
-as an additional argument when executing the script `code2vec.py`.
-Particularly, this argument can be added to each one of the usage examples (of `code2vec.py`) detailed in this file.
-Note that in order to load a trained model (from file), one should use the same implementation used during its training.
 
 ### Releasing the model
 If you wish to keep a trained model for inference only (without the ability to continue training it) you can

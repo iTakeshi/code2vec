@@ -33,8 +33,6 @@ class Config:
                                  'size.')
         parser.add_argument('--predict', action='store_true',
                             help='execute the interactive prediction shell')
-        parser.add_argument("-fw", "--framework", dest="dl_framework", choices=['keras', 'tensorflow'],
-                            default='tensorflow', help="deep learning framework to use.")
         parser.add_argument("-v", "--verbose", dest="verbose_mode", type=int, required=False, default=1,
                             help="verbose mode (should be in {0,1,2}).")
         parser.add_argument("-lp", "--logs-path", dest="logs_path", metavar="FILE", required=False,
@@ -83,7 +81,6 @@ class Config:
         self.SAVE_T2V = args.save_t2v
         self.VERBOSE_MODE = args.verbose_mode
         self.LOGS_PATH = args.logs_path
-        self.DL_FRAMEWORK = 'tensorflow' if not args.dl_framework else args.dl_framework
         self.USE_TENSORBOARD = args.use_tensorboard
 
     def __init__(self, set_defaults: bool = False, load_from_args: bool = False, verify: bool = False):
@@ -124,7 +121,6 @@ class Config:
         self.SAVE_T2V: Optional[str] = None   # TODO: update README;
         self.VERBOSE_MODE: int = 0
         self.LOGS_PATH: Optional[str] = None
-        self.DL_FRAMEWORK: str = ''  # in {'keras', 'tensorflow'}
         self.USE_TENSORBOARD: bool = False
 
         # Automatically filled by `Code2VecModelBase._init_num_of_examples()`.
@@ -235,8 +231,6 @@ class Config:
         if self.is_loading and not os.path.isdir(self.model_load_dir):
             raise ValueError("Model load dir `{model_load_dir}` does not exist.".format(
                 model_load_dir=self.model_load_dir))
-        if self.DL_FRAMEWORK not in {'tensorflow', 'keras'}:
-            raise ValueError("config.DL_FRAMEWORK must be in {'tensorflow', 'keras'}.")
 
     def __iter__(self):
         for attr_name in dir(self):
