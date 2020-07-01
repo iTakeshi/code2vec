@@ -437,6 +437,7 @@ class Code2VecModel(Code2VecModelBase):
         self.log(throughput_message)
 
     def close_session(self):
+        tf.compat.v1.reset_default_graph()
         self.sess.close()
 
     def _initialize_session_variables(self):

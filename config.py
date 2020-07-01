@@ -39,6 +39,8 @@ class Config:
                             help="path to store logs into. if not given logs are not saved to file.")
         parser.add_argument('-tb', '--tensorboard', dest='use_tensorboard', action='store_true',
                             help='use tensorboard during training')
+        parser.add_argument('-o', '--optimize', dest='optimize', action='store_true',
+                            help='optimize hyperparameter')
         return parser
 
     def set_defaults(self):
@@ -70,6 +72,7 @@ class Config:
     def load_from_args(self):
         args = self.arguments_parser().parse_args()
         # Automatically filled, do not edit:
+        self.OPTIMIZE = args.optimize
         self.PREDICT = args.predict
         self.MODEL_SAVE_PATH = args.save_path
         self.MODEL_LOAD_PATH = args.load_path
@@ -84,6 +87,8 @@ class Config:
         self.USE_TENSORBOARD = args.use_tensorboard
 
     def __init__(self, set_defaults: bool = False, load_from_args: bool = False, verify: bool = False):
+        self.OPTIMIZE: bool = False
+
         self.NUM_TRAIN_EPOCHS: int = 0
         self.SAVE_EVERY_EPOCHS: int = 0
         self.TRAIN_BATCH_SIZE: int = 0

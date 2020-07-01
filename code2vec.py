@@ -1,3 +1,6 @@
+import os
+import shutil
+
 from vocabularies import VocabType
 from config import Config
 from interactive_predict import InteractivePredictor
@@ -7,8 +10,35 @@ from tensorflow_model import Code2VecModel
 if __name__ == '__main__':
     config = Config(set_defaults=True, load_from_args=True, verify=True)
 
-    model = Code2VecModel(config)
-    config.log('Done creating code2vec model')
+    model = None
+
+    if config.is_training:
+        if config.OPTIMIZE:
+            config.log("Start hyperparameter optimization")
+            model_save_path_dir = "/".join(config.MODEL_SAVE_PATH.split("/")[:-1])
+            model_save_path_name = config.MODEL_SAVE_PATH.split("/")[-1]
+            for dim in range(50, 201, 10):
+                save_dir = f"{model_save_path_dir}/dim_{dim}"
+                if os.path.exists(save_dir):
+                    shutil.rmtree(save_dir)
+                os.mkdir(save_dir)
+                config.DEFAULT_EMBEDDINGS_SIZE = dim
+                config.TOKEN_EMBEDDINGS_SIZE = config.DEFAULT_EMBEDDINGS_SIZE
+                config.PATH_EMBEDDINGS_SIZE = config.DEFAULT_EMBEDDINGS_SIZE
+                config.CODE_VECTOR_SIZE = config.context_vector_size
+                config.TARGET_EMBEDDINGS_SIZE = config.CODE_VECTOR_SIZE
+                config.MODEL_SAVE_PATH = f"{save_dir}/{model_save_path_name}"
+                model = Code2VecModel(config)
+                model.train()
+                model.close_session()
+                model = None
+
+        else:
+            model = Code2VecModel(config)
+            model.train()
+
+    if model is None:
+        model = Code2VecModel(config)
 
     if config.is_training:
         model.train()

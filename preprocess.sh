@@ -18,10 +18,10 @@
 #   recommended to use a multi-core machine for the preprocessing
 #   step and set this value to the number of cores.
 # PYTHON - python3 interpreter alias.
-TRAIN_DIR=my_train_dir
-VAL_DIR=my_val_dir
-TEST_DIR=my_test_dir
-DATASET_NAME=my_dataset
+TRAIN_DIR=data/std/training
+VAL_DIR=data/std/validation
+TEST_DIR=data/std/test
+DATASET_NAME=std
 MAX_CONTEXTS=200
 WORD_VOCAB_SIZE=1301136
 PATH_VOCAB_SIZE=911417
